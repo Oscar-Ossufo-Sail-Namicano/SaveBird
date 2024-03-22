@@ -1,0 +1,114 @@
+Manage_All_Screens:
+    Menu_screen:
+        name: "menu"
+    Game_screen:
+        name: "stage"
+    Game_over_screen:
+        name: "gameOverScreen"
+
+<CustomizedButton@Button>:
+    font_size: "50sp"
+    background_normal: "images/normalButton.png"
+    background_down: "images/pressedButton.png"
+    border: 90, 90, 90, 90
+
+<CompanyLogo@Image>:
+    source: "images/logo.png"
+
+<Menu_screen>:
+    BoxLayout:
+        orientation: "vertical"
+        canvas:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "images/menuScreen.png"
+        BoxLayout:
+            orientation: "vertical"
+            #padding_x: '50dp'
+            spacing: '20dp'
+            Label:
+                text: "SAVE BIRD"
+                bold: True
+                font_size: root.width/2*0.2
+                color: 0.3, 0.4, 1, 1
+                size_hint_y: None
+                height: self.font_size
+                y: root.height - self.height
+            Label:                
+                text: "Powered by:"
+                bold: True
+                font_size: root.width*0.02
+                color: 0.3, 0.4, 1, 1
+                size_hint_y: None
+                height: self.font_size
+            CompanyLogo:
+                
+        BoxLayout:
+            padding: '100dp'
+            #padding indica a distancia dos widgets filhos
+            #aos extremos do Widget mae
+            spacing: "50dp"
+            CustomizedButton:
+                text: "start"
+                on_release: app.root.current = "stage"
+            CustomizedButton:
+                text: "Exit"
+                on_release: app.stop()
+<Player>:
+    source: "players/player_sozinho.png"
+
+<Game_screen>:
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: "images/gamescreen2.png"
+    FloatLayout:
+        Label:
+            text: "Points: " + str(root.score)
+            font_size: "50sp"
+            bold: True
+            color: 1, 1, 0, 1
+            size_hint_y: None
+            height: self.font_size
+            y: root.height - self.height
+
+                
+        Player:
+            id: player
+            allow_stretch: True
+            size_hint: None, None
+            size: root.height/20, root.height/20
+            x: root.width/20
+            y: root.height/2
+
+<Game_over_screen>:
+    BoxLayout:
+        orientation: "vertical"
+        Widget:
+            size_hint_y: 0.70
+        BoxLayout:
+            orientation: "vertical"
+            padding: "500dp", "70dp"
+            spacing: "20dp"
+            CustomizedButton:
+                text: "Try again"
+                on_release: app.root.current = "stage"
+            CustomizedButton:
+                text: "Exit"
+                on_release: app.stop()
+
+<Obstacle>:
+    canvas:
+        Color:
+            rgba: self.obstacleColor
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    size_hint: None, None
+    #width: self.parent.width/12
