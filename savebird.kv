@@ -1,3 +1,5 @@
+#:kivy 2.3.0
+
 Manage_All_Screens:
     Menu_screen:
         name: "menu"
@@ -5,12 +7,6 @@ Manage_All_Screens:
         name: "stage"
     Game_over_screen:
         name: "gameOverScreen"
-
-<CustomizedButton@Button>:
-    font_size: "50sp"
-    background_normal: "images/normalButton.png"
-    background_down: "images/pressedButton.png"
-    border: 90, 90, 90, 90
 
 <CompanyLogo@Image>:
     source: "images/logo.png"
@@ -28,7 +24,7 @@ Manage_All_Screens:
         BoxLayout:
             orientation: "vertical"
             #padding_x: '50dp'
-            spacing: '20dp'
+            spacing: root.width*0.01
             Label:
                 text: "SAVE BIRD"
                 bold: True
@@ -45,18 +41,33 @@ Manage_All_Screens:
                 size_hint_y: None
                 height: self.font_size
             CompanyLogo:
+                fit_mode: "scale-down"
+                
                 
         BoxLayout:
-            padding: '100dp'
+            padding: root.width*0.05
             #padding indica a distancia dos widgets filhos
             #aos extremos do Widget mae
-            spacing: "50dp"
+            spacing: root.width*0.02
             CustomizedButton:
-                text: "start"
+                text: "Start"
+                size_hint_y: None
+                height: "40sp"
                 on_release: app.root.current = "stage"
             CustomizedButton:
+                text: "About"
+                size_hint_y: None
+                height: "40sp"
+                on_release: root.popup_about()
+            CustomizedButton:
                 text: "Exit"
-                on_release: app.stop()
+                size_hint_y: None
+                height: "40sp"
+                on_release: root.exit_confirmation()
+        Widget:
+            size_hint_y: None
+            height: 250
+
 <Player>:
     source: "players/player_sozinho.png"
 
@@ -70,7 +81,7 @@ Manage_All_Screens:
             source: "images/gamescreen2.png"
     FloatLayout:
         Label:
-            text: "Points: " + str(root.score)
+            text: "Points: " + str(int(root.score))
             font_size: "50sp"
             bold: True
             color: 1, 1, 0, 1
@@ -81,27 +92,61 @@ Manage_All_Screens:
                 
         Player:
             id: player
-            allow_stretch: True
+            #allow_stretch: True
+            fit_mode: "scale-down"
             size_hint: None, None
             size: root.height/20, root.height/20
             x: root.width/20
             y: root.height/2
 
 <Game_over_screen>:
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: "images/gameOver.png"
     BoxLayout:
         orientation: "vertical"
-        Widget:
-            size_hint_y: 0.70
+        Widget
         BoxLayout:
             orientation: "vertical"
-            padding: "500dp", "70dp"
-            spacing: "20dp"
+            size_hint_y: 0.80
+            Label:
+                id: old_and_actual_score
+                font_size: "25sp"
+                bold: True
+                color: 0.8, 0.6, 0, 1
+                size_hint_y: None
+                height: self.font_size
+                pos_hint_y: None
+                y: root.height/2
+                valign: "bottom" 
+                halign: "justify"
+
+        BoxLayout:
+            #orientation: "vertical"
+            padding: root.width*0.05
+            spacing: root.width*0.02
             CustomizedButton:
                 text: "Try again"
+                size_hint_y: None
+                height: "40sp"                
                 on_release: app.root.current = "stage"
             CustomizedButton:
                 text: "Exit"
-                on_release: app.stop()
+                size_hint_y: None
+                height: "40sp"
+                on_release: app.root.get_screen("menu").exit_confirmation()
+            CustomizedButton:
+                text: "Menu"
+                size_hint_y: None
+                height: "40sp"
+                on_release: app.root.current = "menu"
+        Widget:
+            size_hint_y: None
+            height: 250
 
 <Obstacle>:
     canvas:
@@ -112,3 +157,17 @@ Manage_All_Screens:
             pos: self.pos
     size_hint: None, None
     #width: self.parent.width/12
+
+<Down_pipe>:
+    source: "D:/CSM/python/saveBird/obstaculos/cano_de_baixo.png"
+    fit_mode: "fill"
+    size_hint: None, None
+    #size: self.size
+    #pos: self.pos
+
+<Up_pipe>:
+    source: "D:/CSM/python/saveBird/obstaculos/cano_de_cima.png"
+    fit_mode: "fill"
+    size_hint: None, None
+    #size: self.size
+    #pos: self.pos
